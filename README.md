@@ -139,6 +139,12 @@ The analysis enhances event data with the following metrics:
 - Uses PyTorch tensors for efficient computation
 - Vectorized operations for line intersection detection
 
+## Blog & Resources
+
+For more football analytics tutorials, insights, and open data projects, visit our blog:
+**[G.O.A.L. - Gialloblù Open Analytics Lab](https://www.notion.so/Giallobl-Open-Analytics-Lab-4b5f473392624f05a87229ffc16c4b22)**
+
+
 ## References
 
 - [Stats Perform Opta Vision](https://www.statsperform.com/opta-vision/)
@@ -157,3 +163,4 @@ This project uses open data and is intended for educational and research purpose
 ---
 
 *Developed by the Analytics Team at Parma Calcio 1913*
+

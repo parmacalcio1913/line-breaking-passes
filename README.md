@@ -1,6 +1,6 @@
 # Line-Breaking Passes Detection
 
-A Python implementation for detecting line-breaking passes in football using tracking data, developed by Parma Calcio 1913's analytics team.
+A Python implementation for detecting line-breaking passes in football using tracking data, developed by Parma Calcio 1913's Data&Analytics team.
 
 ## Overview
 
@@ -162,5 +162,5 @@ This project uses open data and is intended for educational and research purpose
 
 ---
 
-*Developed by the Analytics Team at Parma Calcio 1913*
+*Developed by the Data&Analytics Team at Parma Calcio 1913*
 

@@ -6,12 +6,29 @@ A Python implementation for detecting line-breaking passes in football using tra
 
 This project analyzes tracking data to identify when passes break through defensive lines by clustering players and detecting ball trajectory intersections with defensive formations. The implementation is inspired by Stats Perform's work and provides metrics for tactical analysis.
 
-## Features
+## Installation
+Make sure you use Python 3.8.x.
+### Clone repo and install requirements
+```bash
+git clone https://github.com/parmacalcio1913/line-breaking-passes.git
+cd line-breaking-passes
+python3 -m venv venv
+pip install -r requirements
+```
 
-- **Line Detection**: Automatically identifies three defensive lines (attack, midfield, defense) using hierarchical clustering
-- **Pass Classification**: Determines whether passes break lines "through" or "around" defensive formations  
-- **Metrics Calculation**: Computes number of lines broken and identifies the last line broken
-- **Forward Pass Analysis**: Focuses on progressive passes that advance play toward the goal
+### Download sample data
+Data is taken from: [Metrica Sports](https://github.com/metrica-sports/sample-data)
+```bash
+mkdir Sample_Game_1
+cd Sample_Game_1
+wget https://raw.githubusercontent.com/metrica-sports/sample-data/master/data/Sample_Game_1/Sample_Game_1_RawEventsData.csv
+wget https://raw.githubusercontent.com/metrica-sports/sample-data/master/data/Sample_Game_1/Sample_Game_1_RawTrackingData_Away_Team.csv
+wget https://raw.githubusercontent.com/metrica-sports/sample-data/master/data/Sample_Game_1/Sample_Game_1_RawTrackingData_Home_Team.csv
+```
+In the repo you can already find `Metrica_IO.py`, which contains all the loading utilities taken from [Laurie Shaw's library](https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking)
+
+## Usage
+Run the `linebreaking_passes.ipynb`
 
 ## Method
 
@@ -32,50 +49,6 @@ This project analyzes tracking data to identify when passes break through defens
 - **Segment Limits**: Broken segments must be ≤9m (x-axis) and ≤20m (y-axis)
 - **Forward Movement**: Only analyzes passes that advance toward the goal
 
-## Installation
-
-### Prerequisites
-```bash
-pip install torch numpy scipy
-```
-
-### Required Files
-- `Metrica_IO.py` - Data loading utilities from [Laurie Shaw's library](https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking)
-- `helper.py` - Contains the `intersects` function for line intersection detection
-- Sample data from [Metrica Sports](https://github.com/metrica-sports/sample-data)
-
-## Usage
-
-### Basic Implementation
-```python
-import torch
-import numpy as np
-from scipy.cluster.hierarchy import linkage, fcluster
-from Metrica_IO import tracking_data, to_metric_coordinates, read_event_data
-from helper import intersects
-
-# Configuration
-DEVICE = "cpu"
-DTYPE = torch.float32
-XDIM, YDIM = 105, 68
-DATADIR = "."
-GAMEID = 1
-PERIOD = 1
-
-# Load and process data
-tracking_home = tracking_data(DATADIR=DATADIR, game_id=GAMEID, teamname="Home")
-tracking_away = tracking_data(DATADIR=DATADIR, game_id=GAMEID, teamname="Away")
-events_df = read_event_data(DATADIR, GAMEID)
-
-# Convert to metric coordinates
-events_df = to_metric_coordinates(events_df)
-tracking_home = to_metric_coordinates(tracking_home)
-tracking_away = to_metric_coordinates(tracking_away)
-
-# Filter for specific period
-tracking_home = tracking_home.query("Period==1")
-tracking_away = tracking_away.query("Period==1")
-```
 
 ### Configuration Parameters
 ```python
@@ -95,6 +68,13 @@ team_attacking_left_to_right = {
 }
 ```
 
+## Features
+
+- **Line Detection**: Automatically identifies three defensive lines (attack, midfield, defense) using hierarchical clustering
+- **Pass Classification**: Determines whether passes break lines "through" or "around" defensive formations
+- **Metrics Calculation**: Computes number of lines broken and identifies the last line broken
+- **Forward Pass Analysis**: Focuses on progressive passes that advance play toward the goal
+
 ## Output Metrics
 
 The analysis enhances event data with the following metrics:
@@ -109,18 +89,6 @@ The analysis enhances event data with the following metrics:
 - **Tracking Data**: Frame-by-frame player positions (x, y coordinates)
 - **Event Data**: Pass events with start/end coordinates and timestamps
 - **Team Information**: Direction of play and player identification
-
-### Expected Data Format
-```python
-# Tracking data columns
-"Home_1_x", "Home_1_y", "Home_2_x", "Home_2_y", ...
-"Away_1_x", "Away_1_y", "Away_2_x", "Away_2_y", ...
-"ball_x", "ball_y"
-
-# Event data columns
-"Type", "Team", "Period", "Start Frame", "End Frame"
-"Start X", "Start Y", "End X", "End Y"
-```
 
 ## Technical Details
 
@@ -163,4 +131,3 @@ This project uses open data and is intended for educational and research purpose
 ---
 
 *Developed by the Data&Analytics Team at Parma Calcio 1913*
-

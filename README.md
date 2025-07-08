@@ -13,6 +13,7 @@ Make sure you use Python 3.8.x.
 git clone https://github.com/parmacalcio1913/line-breaking-passes.git
 cd line-breaking-passes
 python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements
 ```
 
